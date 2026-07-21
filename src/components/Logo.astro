@@ -1,24 +1,14 @@
 ---
-import Image from "astro/components/Image.astro";
+import { BASE, SITE_TITLE } from "../consts";
 const { mode = "light" } = Astro.props;
 ---
 
-<a href="/" class="logo">
-  <Image
-    src={mode == "light" ? `/img/logo.svg` : `/img/logo-w.svg`}
-    alt="logo"
-    width="204"
-    height="50"
-    fetchpriority="high"
-    loading="eager"
-    class="w-auto h-auto dark:hidden"
-  />
-  <Image
-    src="/img/logo-w.svg"
-    alt="logo"
-    width="204"
-    height="50"
-    loading="eager"
-    class="hidden dark:block"
+<a href={BASE} class="logo flex items-center shrink-0">
+  <img
+    src={`${BASE}img/logo.webp`}
+    alt={SITE_TITLE}
+    width="700"
+    height="574"
+    class={mode === "light" ? "h-14 sm:h-16 w-auto" : "h-16 sm:h-20 w-auto"}
   />
 </a>

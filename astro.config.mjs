@@ -1,6 +1,5 @@
 // @ts-check
 
-import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import { defineConfig, fontProviders } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
@@ -8,11 +7,12 @@ import icon from 'astro-icon';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://pro-cleaning-eta.vercel.app/',
+	site: process.env.SITE_URL ?? 'https://professionaldraincleaningllc.com',
+	base: process.env.BASE_PATH ?? '/',
 	vite: {
 		plugins: [tailwindcss()],
 	},
-	integrations: [mdx(), sitemap(), icon()],
+	integrations: [sitemap(), icon()],
 	fonts: [
 		{
 			provider: fontProviders.local(),
@@ -35,6 +35,20 @@ export default defineConfig({
 					},
 				],
 			},
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Poppins',
+			cssVariable: '--font-display',
+			fallbacks: ['sans-serif'],
+			weights: ['700', '800'],
+		},
+		{
+			provider: fontProviders.google(),
+			name: 'Oswald',
+			cssVariable: '--font-label',
+			fallbacks: ['sans-serif'],
+			weights: ['500', '600'],
 		},
 	],
 });

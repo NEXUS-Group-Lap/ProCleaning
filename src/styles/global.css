@@ -1,9 +1,12 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+    themes: light --default;
+}
 
 @theme {
-    --color-main: #35864C; /* #36B864 */
-    --color-dark: #111D15;
+    --color-main: #1467AC;
+    --color-dark: #082C4A;
+    --color-accent: #E2202D;
 }
 
 .container {
@@ -24,13 +27,20 @@
     }
 }
 
+.font-label {
+    font-family: var(--font-label), sans-serif;
+    letter-spacing: 0.04em;
+}
+
 @layer base {
     h1 {
         @apply font-bold text-3xl sm:text-4xl md:text-5xl lg:text-[52px] mb-3 leading-[1.2];
+        font-family: var(--font-display), sans-serif;
     }
 
     h2 {
         @apply font-bold sm:font-semibold mb-3 text-2xl sm:text-3xl md:text-4xl lg:text-[44px];
+        font-family: var(--font-display), sans-serif;
     }
 
     h3 {
@@ -100,5 +110,107 @@
 .breadcrumbs {
     li {
         @apply whitespace-pre-wrap;
+    }
+}
+
+/* Scroll-triggered reveal system (classes toggled to .is-visible by Main.astro's IntersectionObserver) */
+.reveal,
+.reveal-left,
+.reveal-right,
+.reveal-scale {
+    opacity: 0;
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal {
+    transform: translateY(28px);
+}
+
+.reveal-left {
+    transform: translateX(-32px);
+}
+
+.reveal-right {
+    transform: translateX(32px);
+}
+
+.reveal-scale {
+    transform: scale(0.92);
+}
+
+.reveal.is-visible,
+.reveal-left.is-visible,
+.reveal-right.is-visible,
+.reveal-scale.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
+/* Stagger direct children of a reveal-group as they animate in */
+.reveal-group > *:nth-child(1) { transition-delay: 0ms; }
+.reveal-group > *:nth-child(2) { transition-delay: 90ms; }
+.reveal-group > *:nth-child(3) { transition-delay: 180ms; }
+.reveal-group > *:nth-child(4) { transition-delay: 270ms; }
+.reveal-group > *:nth-child(5) { transition-delay: 360ms; }
+.reveal-group > *:nth-child(6) { transition-delay: 450ms; }
+.reveal-group > *:nth-child(7) { transition-delay: 540ms; }
+.reveal-group > *:nth-child(8) { transition-delay: 630ms; }
+.reveal-group > *:nth-child(n+9) { transition-delay: 700ms; }
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-6px);
+}
+
+/* Hero: slow continuous background zoom */
+.hero-bg-anim {
+    animation: hero-kenburns 18s ease-in-out infinite alternate;
+}
+
+@keyframes hero-kenburns {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.08);
+    }
+}
+
+/* Hero: stagger content in on load */
+.hero-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: hero-fade-up 0.7s ease-out forwards;
+}
+
+.hero-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+.hero-stagger > *:nth-child(2) { animation-delay: 0.25s; }
+.hero-stagger > *:nth-child(3) { animation-delay: 0.4s; }
+.hero-stagger > *:nth-child(4) { animation-delay: 0.55s; }
+.hero-stagger > *:nth-child(5) { animation-delay: 0.7s; }
+.hero-stagger > *:nth-child(n+6) { animation-delay: 0.85s; }
+
+@keyframes hero-fade-up {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .reveal-left,
+    .reveal-right,
+    .reveal-scale,
+    .hero-stagger > *,
+    .hero-bg-anim,
+    .hover-lift {
+        transition: none !important;
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
     }
 }

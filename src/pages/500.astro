@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Main.astro";
 import Logo from "../components/Logo.astro";
+import { BASE } from "../consts";
 
 interface Props {
   error: unknown;
@@ -19,7 +20,7 @@ const { error } = Astro.props;
       <p>
         {error instanceof Error ? error.message : "Unknown error"}
       </p>
-      <a href="/" class="btn btn-neutral mx-auto shadow-none rounded-none"
+      <a href={BASE} class="btn btn-neutral mx-auto shadow-none rounded-none"
         >GO TO HOME</a
       >
     </div>

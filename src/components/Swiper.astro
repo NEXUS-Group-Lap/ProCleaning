@@ -1,8 +1,9 @@
 ---
 import "swiper/css";
 import "swiper/css/navigation";
+import "swiper/css/pagination";
 import { Icon } from "astro-icon/components";
-const { id, pagination = false, navigation = false, prev, next } = Astro.props;
+const { id, pagination = false, navigation = false, prev, next, paginationEl } = Astro.props;
 ---
 
 <div class="relative">
@@ -11,6 +12,8 @@ const { id, pagination = false, navigation = false, prev, next } = Astro.props;
     <div class="swiper-wrapper">
       <slot />
     </div>
+
+    {pagination && <div class={`swiper-pagination ${paginationEl ?? ""}`}></div>}
   </div>
 
   {

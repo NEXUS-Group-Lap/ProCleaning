@@ -1,38 +1,40 @@
 ---
-import ServiceCard from "../../components/card/ServiceCard.astro";
-import { getCollection } from "astro:content";
-
-const services = (await getCollection("service"))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
+import { Icon } from "astro-icon/components";
+import { SERVICES as services } from "../../data/services";
 ---
 
-<section class="section section-services">
+<section id="services" class="section section-services scroll-mt-20">
   <div class="container">
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-4 border-b border-b-main pb-10"
-    >
-      <h2 class="capitalize">We always provide the best service</h2>
-      <div>
-        <div class="flex flex-wrap justify-between items-center gap-3">
-          <p class="font-semibold mb-3 text-xl">Services</p>
-          <p>
-            <a href="/service" class="text-main underline hover:no-underline"
-              >All services</a
-            >
-          </p>
-        </div>
-        <p class="mb-3">
-          While we can customize your cleaning plan to suit your needs, most
-          clients schedule regular cleaning services :
-        </p>
-      </div>
-    </div>
+    <h2 class="reveal text-center capitalize">
+      <span data-i18n="en">Our Services</span>
+      <span data-i18n="es" style="display:none">Nuestros Servicios</span>
+    </h2>
+    <p class="reveal text-center text-gray-500 max-w-xl mx-auto mb-2">
+      <span data-i18n="en">Whatever's going on with your pipes, we've probably fixed it before. Tap a service to see what's included — or just call and describe the problem, we'll take it from there.</span>
+      <span data-i18n="es" style="display:none">Sea lo que sea que esté pasando con tus tuberías, probablemente ya lo hemos arreglado antes. Toca un servicio para ver qué incluye — o simplemente llama y cuéntanos el problema, nosotros nos encargamos del resto.</span>
+    </p>
 
-    <div
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mt-10 relative"
-    >
-      {services.map((service) => <ServiceCard {...service} />)}
+    <div class="reveal-group grid md:grid-cols-2 gap-3 mt-10">
+      {services.map((s) => (
+        <details class="reveal group rounded-xl border border-gray-200 bg-white open:border-main/40 open:shadow-sm transition">
+          <summary class="flex items-center gap-3 p-4 cursor-pointer list-none select-none">
+            <div class="w-10 h-10 rounded-lg bg-main/10 flex items-center justify-center shrink-0">
+              <Icon name={s.icon} size={20} class="text-main" />
+            </div>
+            <h3 class="text-base font-bold text-dark flex-1">
+              <span data-i18n="en">{s.en.title}</span>
+              <span data-i18n="es" style="display:none">{s.es.title}</span>
+            </h3>
+            <Icon name="lucide:chevron-down" size={18} class="text-gray-400 shrink-0 transition-transform duration-200 group-open:rotate-180" />
+          </summary>
+          <div class="px-4 pb-4 pl-[4.25rem] -mt-1">
+            <p class="text-sm text-gray-600">
+              <span data-i18n="en">{s.en.desc}</span>
+              <span data-i18n="es" style="display:none">{s.es.desc}</span>
+            </p>
+          </div>
+        </details>
+      ))}
     </div>
   </div>
 </section>
